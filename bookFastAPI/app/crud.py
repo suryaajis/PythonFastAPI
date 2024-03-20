@@ -1,18 +1,18 @@
 from sqlalchemy.orm import Session
 from model import Book
-from schemas import BookSchema
+from schemas import BookSchema, RequestBook
 
 # Get All Books
-def get_book(db:Session, skip:int=0, limit:int=0):
-  return db.query(Book).offset(skip).limit(limit).all
+def get_book(db:Session, skip:int=0, limit:int=100):
+  return db.query(Book).offset(skip).limit(limit).all()
 
 # Get Book by ID
 def get_book_by_id(db:Session, book_id:int):
   return db.query(Book).filter(Book.id == book_id).first()
 
 # Create Book
-def create_book(db:Session, book:BookSchema):
-  _book = Book(title= book.title, description=book.description)
+def create_book(db:Session, request: RequestBook):
+  _book = Book(title=request.parameter.title, description=request.parameter.description)
   db.add(_book)
   db.commit()
   db.refresh(_book)
