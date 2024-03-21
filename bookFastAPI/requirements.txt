@@ -1,0 +1,13 @@
+bcrypt
+cffi
+click
+fastapi
+h11
+passlib
+pycparser
+PyJWT
+six
+starlette
+uvicorn
+sqlalchemy
+psycopg2

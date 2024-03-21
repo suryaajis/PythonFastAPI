@@ -8,3 +8,10 @@ class Book(Base):
   id=Column(Integer, primary_key=True)
   title=Column(String)
   description=Column(String)
+  
+class User(Base):
+  __tablename__ = 'user'
+  
+  id=Column(Integer, primary_key=True)
+  username=Column(String)
+  password=Column(String)

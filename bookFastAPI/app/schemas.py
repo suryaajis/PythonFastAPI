@@ -20,3 +20,10 @@ class Response (GenericModel, Generic[T]):
   status: str
   message: str
   result: Optional[T]
+  
+class AuthSchema(BaseModel):
+  username: str
+  password: str
+  
+  class Config:
+    orm_mode: True
