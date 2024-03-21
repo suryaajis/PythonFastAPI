@@ -15,3 +15,7 @@ Install the dependencies:
 
 Run the API with Uvicorn:  
 `uvicorn app.main:app --reload`
+
+
+### References
+* https://ethereal.email/
