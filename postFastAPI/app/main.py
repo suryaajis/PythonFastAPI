@@ -1,5 +1,9 @@
 from fastapi import FastAPI
-from .config import cursor
+from . import router_manual
+from . import models
+from .config import engine
+
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
@@ -7,8 +11,5 @@ app = FastAPI()
 def root():
   return {"Hello": "Python"}
 
-@app.get("/posts")
-def read_posts():
-  cursor.execute("""SELECT * FROM posts """)
-  posts = cursor.fetchall()
-  return {"data": posts}
+
+# app.include_router(router_manual.router)
