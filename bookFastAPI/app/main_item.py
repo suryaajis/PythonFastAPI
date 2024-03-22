@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import Body, FastAPI
 from typing import Optional
 from pydantic import BaseModel
 
@@ -41,4 +41,8 @@ def update_item(item_id, item: Item):
     if item_id not in database:
         return {"Error": "Item ID does not exists."}
     
-    
+# Another create post with body params
+@app.post("/post-item")
+def create_posts(payload: dict = Body(...)):
+    print(payload)
+    return {"new_post": f"title{payload['title']} content: {payload['content']}"}
