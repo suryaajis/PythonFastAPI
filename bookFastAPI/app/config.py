@@ -10,7 +10,7 @@ USERNAME = os.environ.get("MAIL_USERNAME")
 PASSWORD = os.environ.get("MAIL_PASSWORD")
 PORT = os.environ.get("MAIL_PORT", 465)
 
-DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/python_db"
+DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/book_db"
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind= engine)

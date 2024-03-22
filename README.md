@@ -5,10 +5,12 @@
 Python using fastapi and database postgresql
 
 Set up a virtual environment for the project:  
-`python3 -m venv virtualenv`
+`py -m venv virtualenv` or
+`py -m venv venv`
 
 Activate the environment:  
-`source virtualenv/bin/activate`
+`virtualenv/bin/activate` or
+`venv/bin/activate`
 
 Install the dependencies:  
 `pip install -r requirements.txt`
