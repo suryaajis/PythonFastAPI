@@ -1,8 +1,10 @@
 # PythonFastAPI
+* BookFastAPI simple python with fastapi, mailer, and jwt token
+* NewsFastAPI sturctured python fastapi
 
-## Book FastAPI
-### Getting Started
+## Getting Started
 Python using fastapi and database postgresql
+
 
 Set up a virtual environment for the project:  
 `py -m venv virtualenv` or
@@ -17,7 +19,6 @@ Install the dependencies:
 
 Run the API with Uvicorn:  
 `uvicorn app.main:app --reload`
-
 
 ### References
 * https://ethereal.email/

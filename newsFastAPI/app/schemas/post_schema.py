@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from .base_schema import FindBase, ModelBaseInfo, SearchOptions
+from .base_schema import ModelBaseInfo
 
 class BasePost(BaseModel):
   title: str
@@ -9,5 +9,8 @@ class BasePost(BaseModel):
   class Config:
     orm_mode: True
   
-class Post(ModelBaseInfo, BasePost):
+class PostSchema(ModelBaseInfo, BasePost):
     ...
+    
+class PostRequest(BasePost):
+  pass

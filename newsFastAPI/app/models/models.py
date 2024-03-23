@@ -1,9 +1,16 @@
 from .base_model import BaseModel
 from sqlalchemy import Column, String, Boolean
 
-class Post(BaseModel):
+class PostModel(BaseModel):
   __tablename__ = "posts"
   
   title = Column(String, nullable=False)
   content = Column(String, nullable=False)
   published = Column(Boolean, default=True, nullable=True)
+  
+class UserModel(BaseModel):
+  __tablename__ = "users"
+  
+  email = Column(String, nullable=False)
+  username = Column(String, nullable=False)
+  password = Column(String, nullable=False)
