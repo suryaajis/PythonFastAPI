@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
-from .schemas import Post
+from ..schemas.post_schema import Post
 
 router = APIRouter()
 
