@@ -7,6 +7,10 @@ class BaseUser(BaseModel):
   email = EmailStr
   username = str
   password = str
+  is_active = bool = True
   
-class User(ModelBaseInfo, BaseUser):
+class UserSchema(ModelBaseInfo, BaseUser):
   ...
+  
+class UserRequest(BaseUser):
+  pass

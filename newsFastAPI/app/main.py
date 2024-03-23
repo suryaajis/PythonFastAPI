@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from .models import models
 from .core.config import engine
-from .routers import posts
+from .routers import post_router, user_router
 
 models.BaseModel.metadata.create_all(bind=engine)
 
@@ -11,5 +11,6 @@ app = FastAPI()
 def root():
   return {"Hello": "Python"}
 
-app.include_router(posts.router)
-# app.include_router(router_manual.router)
+app.include_router(post_router.router)
+app.include_router(user_router.router)
+# app.include_router(manual_router.router)

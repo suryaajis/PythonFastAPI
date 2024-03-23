@@ -28,7 +28,7 @@ def update_post(db:Session, post_id:int, req:PostRequest):
   if not post_selected:
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post ID {post_id} not found")
   
-  post_query.update(req.dict(), synchronize_session=False)
+  post_query.update(req.dict())
   
   db.commit()
   return post_query.first()

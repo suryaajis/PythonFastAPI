@@ -14,3 +14,4 @@ class UserModel(BaseModel):
   email = Column(String, nullable=False)
   username = Column(String, nullable=False)
   password = Column(String, nullable=False)
+  is_active = Column(Boolean, default=True)
