@@ -1,16 +1,17 @@
 from dotenv import load_dotenv
-from sqlalchemy import create_engine, orm
-from sqlalchemy.ext.declarative import declarative_base, as_declarative, declared_attr
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from typing import Any
 import os
 
 load_dotenv()
-HOST = os.environ.get("DB_HOST")
-PORT = os.environ.get("DB_PORT")
-DB = os.environ.get("DB_DATABASE")
-USER = os.environ.get("DB_USERNAME")
-PASS = os.environ.get("DB_PASSWORD")
+HOST = os.environ.get("DB_HOST", "localhost")
+PORT = os.environ.get("DB_PORT", "5432")
+DB = os.environ.get("DB_DATABASE", "news_db")
+USER = os.environ.get("DB_USERNAME", "postgres")
+PASS = os.environ.get("DB_PASSWORD", "postgres")
+
+JWT_SECRET = os.environ.get("JWT_SECRET", "SECRET_KEY")
   
 # ORM CONFIG DATABASE
 # Use ORM we must declare models with create models for table on Database

@@ -11,7 +11,7 @@ class PostModel(BaseModel):
 class UserModel(BaseModel):
   __tablename__ = "users"
   
-  email = Column(String, nullable=False)
+  email = Column(String, nullable=False, unique=True)
   username = Column(String, nullable=False)
   password = Column(String, nullable=False)
   is_active = Column(Boolean, default=True)

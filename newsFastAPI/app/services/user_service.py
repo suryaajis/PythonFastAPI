@@ -2,9 +2,21 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from ..schemas.user_schema import UserRequest
 from ..models.models import UserModel
+from ..core.security import AuthHandler
 
-def register_user(db:Session, req:UserRequest):
-  return {}
+auth_handler = AuthHandler()
+
+def register_user(db:Session, request: UserRequest):
+  if db.query(UserModel).filter(UserModel.username == request.username).first():
+    raise HTTPException(status_code=400, detail='Username is taken')
+  
+  hashed_pass = auth_handler.get_password_hash(request.password)
+  new_user = UserModel(email= request.email, username=request.username, password=hashed_pass)
+  
+  db.add(new_user)
+  db.commit()
+  db.refresh(new_user)
+  return new_user
 
 def get_users(db:Session):
   users = db.query(UserModel).all()
