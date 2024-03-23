@@ -1,10 +1,10 @@
 from fastapi import FastAPI, Depends, BackgroundTasks
-from config import engine
-from auth import AuthHandler
-from helper.mailer import send_email
-from schemas import MailBody
-import model
-import router
+from .config import engine
+from .auth import AuthHandler
+from .helper.mailer import send_email
+from .schemas import MailBody
+from . import model
+from . import router
 
 model.Base.metadata.create_all(bind=engine)
 

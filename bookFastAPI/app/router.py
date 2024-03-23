@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Path, Depends
-from config import SessionLocal
 from sqlalchemy.orm import Session
-from schemas import AuthSchema, RequestBook, Response
-import controller
+from .config import SessionLocal
+from .schemas import AuthSchema, RequestBook, Response
+from . import controller
 
 router = APIRouter()
 

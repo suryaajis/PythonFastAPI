@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, status
-from .config_manual import conn, cursor
 from .schemas import Post
 
 router = APIRouter()
 
+'''
 @router.get("/posts")
 def read_posts():
   cursor.execute("""SELECT * FROM posts """)
@@ -55,3 +55,4 @@ def update_post(id: int, req: Post):
   
   conn.commit()
   return {"data": updated_post}
+'''

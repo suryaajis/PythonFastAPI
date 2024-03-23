@@ -1,8 +1,8 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from model import Book, User
-from schemas import AuthSchema, RequestBook
-from auth import AuthHandler
+from .model import Book, User
+from .schemas import AuthSchema, RequestBook
+from .auth import AuthHandler
 
 auth_handler = AuthHandler()
 

@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from . import router_manual
 from . import models
 from .config import engine
 

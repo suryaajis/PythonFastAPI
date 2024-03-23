@@ -1,5 +1,5 @@
-from schemas import MailBody
-from config import HOST, USERNAME, PASSWORD, PORT
+from ..schemas import MailBody
+from ..config import HOST, USERNAME, PASSWORD, PORT
 from ssl import create_default_context
 from email.mime.text import MIMEText
 from smtplib import SMTP
