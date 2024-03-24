@@ -15,3 +15,7 @@ class UserRequest(BaseUser):
 
 class UserDisableRequest(BaseModel):
   is_active: bool
+  
+class UserLoginRequest(BaseModel):
+  email: EmailStr
+  password: str

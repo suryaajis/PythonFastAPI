@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from ..core.config import get_db
-from ..schemas.user_schema import UserRequest, UserDisableRequest
+from ..schemas.user_schema import UserRequest, UserDisableRequest, UserLoginRequest
 from ..schemas.base_schema import Response
 from ..services import user_service
 
@@ -10,12 +10,20 @@ router = APIRouter(
   tags=["users"]
 )
 
-
-@router.post("/")
+# Auth User Routers
+@router.post("/register")
 def register_user(request:UserRequest, db:Session=Depends(get_db)):
   data = user_service.register_user(db, request)
   return Response(code="201", status="Ok", message="Success register user", result=data).dict(exclude_none=True)
 
+@router.post("/login")
+def login_user(request: UserLoginRequest, db:Session=Depends(get_db)):
+  data = user_service.login_user(db, request)
+  return Response(code="200", status="Ok", message="Success login user", result=data).dict(exclude_none=True)
+
+
+
+# User Routers
 @router.get("/")
 def read_user(db:Session=Depends(get_db)):
   data = user_service.get_users(db)
