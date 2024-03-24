@@ -1,6 +1,7 @@
 from fastapi import HTTPException, status
+from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from ..schemas.user_schema import UserLoginRequest, UserRequest
+from ..schemas.user_schema import UserRequest
 from ..models.models import UserModel
 from ..core.security import AuthHandler
 
@@ -19,18 +20,20 @@ def register_user(db:Session, request: UserRequest):
   db.refresh(new_user)
   return new_user
 
-def login_user(db:Session, request: UserLoginRequest):
-  user = db.query(UserModel).filter(UserModel.email == request.email).first()
+def login_user(db:Session, request: OAuth2PasswordRequestForm):
+  user = db.query(UserModel).filter(UserModel.email == request.username).first()
   
   if user is None or not auth_handler.verify_password(request.password, user.password):
     raise HTTPException(status_code=401, detail='Invalid username and/or password')
-    
-  token = auth_handler.encode_token(user.id)
+  
+  payload = {"user_id": user.id}
+  token = auth_handler.encode_token(payload)
   return {"access_token": token, "token_type": "bearer"}
 
 
 # User Services
-def get_users(db:Session):
+def get_users(db:Session, credentials):
+  print(credentials)
   users = db.query(UserModel).all()
   return users
 
