@@ -32,8 +32,7 @@ def login_user(db:Session, request: OAuth2PasswordRequestForm):
 
 
 # User Services
-def get_users(db:Session, credentials):
-  print(credentials)
+def get_users(db:Session):
   users = db.query(UserModel).all()
   return users
 

@@ -28,17 +28,17 @@ def login_user(request:OAuth2PasswordRequestForm = Depends(), db:Session=Depends
 
 # User Routers
 @router.get("/")
-def read_user(credentials:any = Depends(auth_handler.auth_wrapper), db:Session=Depends(get_db)):
-  data = user_service.get_users(db, credentials)
+def read_user(credentials = Depends(auth_handler.auth_wrapper), db:Session=Depends(get_db)):
+  data = user_service.get_users(db)
   return Response(code=str(status.HTTP_200_OK), status="Ok", message="Success read all users", result=data).dict(exclude_none=True)
 
 @router.get("/{id}")
-def read_user_by_id(id:int, db:Session=Depends(get_db)):
+def read_user_by_id(id:int, credentials = Depends(auth_handler.auth_wrapper), db:Session=Depends(get_db)):
   data = user_service.get_user_by_id(db, id)
   return Response(code=str(status.HTTP_200_OK), status="Ok", message="Success read user", result=data).dict(exclude_none=True)
 
 @router.patch("/{id}")
-def disable_user(id: int, request: UserDisableRequest, db:Session=Depends(get_db)):
+def disable_user(id: int, request: UserDisableRequest, credentials = Depends(auth_handler.auth_wrapper), db:Session=Depends(get_db)):
   data = user_service.disable_user(db, id, is_active=request.is_active)
   response = {"email": data.email, "is_active": data.is_active}
   return Response(code=str(status.HTTP_200_OK), status="Ok", message="Success change activation user", result=response).dict(exclude_none=True)
