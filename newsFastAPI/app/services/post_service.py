@@ -14,8 +14,8 @@ def get_posts_by_id(db:Session, post_id:int):
   
   return post
 
-def create_post(db:Session, req:PostRequest):
-  new_post = PostModel(title=req.title, content=req.content, published=req.published)
+def create_post(db:Session, req:PostRequest, credentials:int):
+  new_post = PostModel(user_id=credentials, **req.dict())
   db.add(new_post)
   db.commit()
   db.refresh(new_post)

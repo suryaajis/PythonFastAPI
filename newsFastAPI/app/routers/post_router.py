@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from ..core.config import get_db
 from ..services import post_service
-from ..schemas.post_schema import PostSchema, PostRequest
+from ..schemas.post_schema import PostRequest
 from ..schemas.base_schema import Response
 from ..core.security import AuthHandler
 
@@ -24,8 +24,8 @@ router = APIRouter(
 
 
 @router.post('/')
-async def create_post(request:PostRequest, credentials = Depends(auth_handler.auth_wrapper), db:Session=Depends(get_db)):
-  post_service.create_post(db, request)
+async def create_post(request:PostRequest, credentials:int = Depends(auth_handler.auth_wrapper), db:Session=Depends(get_db)):
+  post_service.create_post(db, request, credentials)
   return Response(code=str(status.HTTP_201_CREATED), status="Ok", message="Success created post", result=None).dict(exclude_none=True)
 
 @router.get('/')

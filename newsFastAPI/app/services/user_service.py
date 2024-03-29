@@ -26,13 +26,13 @@ def login_user(db:Session, request: OAuth2PasswordRequestForm):
   if user is None or not auth_handler.verify_password(request.password, user.password):
     raise HTTPException(status_code=401, detail='Invalid username and/or password')
   
-  payload = {"user_id": user.id}
+  payload = user.id
   token = auth_handler.encode_token(payload)
   return {"access_token": token, "token_type": "bearer"}
 
 
 # User Services
-def get_users(db:Session):
+def get_users(db:Session, credentials):
   users = db.query(UserModel).all()
   return users
 

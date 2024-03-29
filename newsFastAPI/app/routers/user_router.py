@@ -24,7 +24,7 @@ def register_user(request:UserRequest, db:Session=Depends(get_db)):
 def login_user(request:OAuth2PasswordRequestForm = Depends(), db:Session=Depends(get_db)):
   data = user_service.login_user(db, request)
   return Response(code="200", status="Ok", message="Success login user", result=data).dict(exclude_none=True)
-
+ 
 
 # User Routers
 @router.get("/")
