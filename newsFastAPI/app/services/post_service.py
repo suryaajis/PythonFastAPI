@@ -1,9 +1,13 @@
+from typing import Optional
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from ..schemas.post_schema import PostRequest
 from ..models.models import PostModel
 
-def get_posts(db:Session, skip:int=0, limit:int=100):
+def get_posts(db:Session, skip:int=0, limit:int=100, user_id:Optional[int] = None):
+  if user_id:
+    return db.query(PostModel).filter(PostModel.user_id == user_id).offset(skip).limit(limit).all()
+  
   return db.query(PostModel).offset(skip).limit(limit).all()
 
 def get_posts_by_id(db:Session, post_id:int):

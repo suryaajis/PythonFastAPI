@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from ..core.config import get_db
@@ -29,8 +30,8 @@ async def create_post(request:PostRequest, credentials:int = Depends(auth_handle
   return Response(code=str(status.HTTP_201_CREATED), status="Ok", message="Success created post", result=None).dict(exclude_none=True)
 
 @router.get('/')
-async def get_posts(credentials = Depends(auth_handler.auth_wrapper), db:Session=Depends(get_db)):
-  posts = post_service.get_posts(db, 0, 100)
+async def get_posts(user_id: Optional[int] = None, credentials = Depends(auth_handler.auth_wrapper), db:Session=Depends(get_db)):
+  posts = post_service.get_posts(db, 0, 100, user_id)
   return Response(code=str(status.HTTP_200_OK), status="Ok", message="Success read all posts", result=posts).dict(exclude_none=True)
 
 @router.get('/{id}')

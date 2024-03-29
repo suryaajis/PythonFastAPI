@@ -8,4 +8,4 @@ class BaseModel(Base):
   
   id = Column(Integer, primary_key=True, index=True, nullable=False)
   created_at = Column(DateTime, default=datetime.utcnow)
-  updated_at = Column(DateTime, default=datetime.utcnow)
+  updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
