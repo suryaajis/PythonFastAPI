@@ -1,14 +1,24 @@
 from typing import Optional
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from ..schemas.post_schema import PostRequest
-from ..models.models import PostModel
+from ..models.models import PostModel, VoteModel
 
-def get_posts(db:Session, skip:int=0, limit:int=100, user_id:Optional[int] = None):
-  if user_id:
-    return db.query(PostModel).filter(PostModel.user_id == user_id).offset(skip).limit(limit).all()
+def get_posts(db:Session, skip:int=0, limit:int=100, user_id:Optional[int] = None, search:Optional[str]=None):
+  query = db.query(PostModel).offset(skip).limit(limit)
   
-  return db.query(PostModel).offset(skip).limit(limit).all()
+  if user_id:
+    return query.filter(PostModel.user_id == user_id).all()
+  
+  if search:
+    query.filter(PostModel.title.contains(search))
+    
+  # JOIN Example Response
+  # posts = db.query(PostModel, func.count(VoteModel.post_id).label("votes")).join(
+  #   VoteModel, VoteModel.post_id == PostModel.id, isouter=True).group_by(PostModel.id).all()
+    
+  return query.all()
 
 def get_posts_by_id(db:Session, post_id:int):
   post = db.query(PostModel).filter(PostModel.id == post_id).first()

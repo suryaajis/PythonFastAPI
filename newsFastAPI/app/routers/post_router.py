@@ -31,8 +31,8 @@ async def create_post(request:PostRequest, credentials:int = Depends(auth_handle
   return Response(code=str(status.HTTP_201_CREATED), status="Ok", message="Success created post", result=None).dict(exclude_none=True)
 
 @router.get('/', response_model=List[PostSchema])
-async def get_posts(user_id: Optional[int] = None, credentials = Depends(auth_handler.auth_wrapper), db:Session=Depends(get_db)):
-  posts = post_service.get_posts(db, 0, 100, user_id)
+async def get_posts(user_id: Optional[int] = None, search: Optional[str]=None, credentials = Depends(auth_handler.auth_wrapper), db:Session=Depends(get_db)):
+  posts = post_service.get_posts(db, 0, 100, user_id, search)
   return posts # Still not understand how to make output use Response Schema
 
 @router.get('/{id}')
