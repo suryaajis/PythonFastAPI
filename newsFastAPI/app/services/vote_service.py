@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 from typing import Optional
 from sqlalchemy.orm import Session
-from ..schemas.vote_schema import VoteLikedReq, VoteRequest
+from ..schemas.vote_schema import VoteRequest
 from ..models.models import VoteModel
 from ..core.security import AuthHandler
 
@@ -9,7 +9,6 @@ auth_handler = AuthHandler()
 
 def get_votes(db:Session, user_id: Optional[int]=None, post_id:Optional[int]=None):
   query = db.query(VoteModel)
-  
   if user_id:
     query.filter(VoteModel.user_id == user_id)
     
@@ -22,8 +21,9 @@ def create_vote(db:Session, req:VoteRequest):
   vote_filter = db.query(VoteModel).filter(VoteModel.user_id == req.user_id, VoteModel.post_id == req.post_id).first()
   
   if vote_filter: 
-    vote_update = update_is_voted(db, id=vote_filter.id, is_voted=not req.is_voted)
-    return vote_update
+    vote_update = update_is_voted(db, id=vote_filter.id, is_voted=not vote_filter.is_voted)  
+    response = {"id": vote_update.id, "is_voted": vote_update.is_voted}
+    return response
   else:
     new_vote = VoteModel(**req.dict())
     db.add(new_vote)
