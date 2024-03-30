@@ -19,3 +19,10 @@ class UserDisableRequest(BaseModel):
 class UserLoginRequest(BaseModel):
   email: EmailStr
   password: str
+  
+class UserResponse(BaseModel):
+  id: int
+  email: str
+  
+  class Config:
+    orm_mode = True
