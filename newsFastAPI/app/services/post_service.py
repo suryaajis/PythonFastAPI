@@ -1,24 +1,42 @@
 from typing import Optional
 from fastapi import HTTPException, status
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from ..schemas.post_schema import PostRequest
 from ..models.models import PostModel, VoteModel
 
 def get_posts(db:Session, skip:int=0, limit:int=100, user_id:Optional[int] = None, search:Optional[str]=None):
-  query = db.query(PostModel).offset(skip).limit(limit)
-  
-  if user_id:
-    return query.filter(PostModel.user_id == user_id).all()
-  
-  if search:
-    query.filter(PostModel.title.contains(search))
+  try:
+    query = db.query(PostModel)
+
+    if user_id:
+      query = query.filter(PostModel.user_id == user_id)
+
+    if search:
+      query = query.filter(PostModel.title.contains(search))
+
+    result = query.limit(limit).offset(skip).all()
+    return result
+    # posts = db.query(PostModel, func.count(VoteModel.post_id).label("votes")).join(
+    #   VoteModel, VoteModel.post_id == PostModel.id, isouter=True).group_by(PostModel.id).limit(limit).offset(skip).all()
     
-  # JOIN Example Response
-  # posts = db.query(PostModel, func.count(VoteModel.post_id).label("votes")).join(
-  #   VoteModel, VoteModel.post_id == PostModel.id, isouter=True).group_by(PostModel.id).all()
-    
-  return query.all()
+    # # Process posts to create a JSON-compatible data structure
+    # posts_data = []
+    # for post, vote_count in posts:
+    #   post_data = {
+    #     "post": post,
+    #     "votes": vote_count
+    #   }
+    #   posts_data.append(post_data)
+
+    # # Serialize the data and return as a JSON response
+    # json_data = jsonable_encoder(posts_data)
+    # return JSONResponse(content=json_data)
+  except Exception as e:
+    raise ValueError("Error occurred while fetching and serializing posts") from e
+
 
 def get_posts_by_id(db:Session, post_id:int):
   post = db.query(PostModel).filter(PostModel.id == post_id).first()

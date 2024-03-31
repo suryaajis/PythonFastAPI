@@ -5,7 +5,6 @@ from ..core.config import get_db
 from ..services import post_service
 from ..schemas.post_schema import PostRequest, PostSchema
 from ..schemas.base_schema import Response
-from ..models.models import PostModel
 from ..core.security import AuthHandler
 
 auth_handler = AuthHandler()
@@ -30,7 +29,7 @@ async def create_post(request:PostRequest, credentials:int = Depends(auth_handle
   post_service.create_post(db, request, credentials)
   return Response(code=str(status.HTTP_201_CREATED), status="Ok", message="Success created post", result=None).dict(exclude_none=True)
 
-@router.get('/', response_model=List[PostSchema])
+@router.get('/', response_model=PostSchema)
 async def get_posts(user_id: Optional[int] = None, search: Optional[str]=None, credentials = Depends(auth_handler.auth_wrapper), db:Session=Depends(get_db)):
   posts = post_service.get_posts(db, 0, 100, user_id, search)
   return posts # Still not understand how to make output use Response Schema
